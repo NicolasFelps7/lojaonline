@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Prime Vision</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topo">
+  <img src="img/primevision.png" class="logo">
+
+  <input type="text" placeholder="O que você está procurando?" class="busca">
+
+  <div class="menu">
+    <span>❤</span>
+
+    <!-- 🔐 BOTÃO DE LOGIN AGORA FUNCIONA -->
+    <a href="login.html" class="entrar">Entrar</a>
+
+    <!-- 🛒 CARRINHO -->
+    <a href="carrinho.html" class="carrinho">
+      🛒 <b id="contador">0</b>
+    </a>
+  </div>
+</header>
+
+<section class="banner">
+  <img src="img/promo.png" class="banner-img">
+
+  <div class="texto-banner">
+    <h1>NOVA COLEÇÃO</h1>
+    <p>Performance e estilo</p>
+    <button>CONFIRA</button>
+  </div>
+</section>
+
+<section class="categorias">
+  <h2>NA PRIME VISION TEM</h2>
+
+  <div class="lista-categorias">
+
+    <div class="categoria">
+      <div class="circle"><img src="img/oferta.png"></div>
+      <p>Ofertas</p>
+    </div>
+
+    <a href="chuteira.html" class="categoria">
+      <div class="circle">
+        <img src="img/chuteira.png">
+      </div>
+      <p>Chuteiras</p>
+    </a>
+
+  </div>
+</section>
+
+<section class="vitrine">
+
+  <div class="card-grande">
+    <img src="img/mae.jpg">
+    <div class="texto">
+      <h2>DIA DAS MÃES</h2>
+      <button>APROVEITE</button>
+    </div>
+  </div>
+
+  <div class="card-grande">
+    <img src="img/rosa.webp">
+    <div class="texto">
+      <h2>CUIDADO PESSOAL</h2>
+      <button>CONFIRA</button>
+    </div>
+  </div>
+
+  <div class="card-grande">
+    <img src="img/roupa.jpg">
+    <div class="texto">
+      <h2>NOVOS LANÇAMENTOS</h2>
+      <button>VER MAIS</button>
+    </div>
+  </div>
+
+</section>
+
+<script src="script.js"></script>
+
+<script>
+// atualiza contador ao abrir
+atualizarCarrinho();
+</script>
+
+</body>
+</html>
