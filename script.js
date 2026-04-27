@@ -1,83 +1,166 @@
-// 🔢 ATUALIZA CONTADOR DO CARRINHO
-async function atualizarCarrinho() {
-  const res = await fetch("http://localhost:3000/carrinho");
-  const dados = await res.json();
 
-  const contador = document.getElementById("contador");
-  if (contador) {
-    contador.innerText = dados.length;
-  }
-}
+// ==========================
+// 👤 CADASTRO
+// ==========================
+function criarConta() {
+  const nome = document.getElementById("cadNome").value;
+  const email = document.getElementById("cadEmail").value;
+  const senha = document.getElementById("cadSenha").value;
 
-// 🛒 MOSTRAR CARRINHO
-async function carregarCarrinho() {
-  const res = await fetch("http://localhost:3000/carrinho");
-  const dados = await res.json();
-
-  const lista = document.getElementById("listaCarrinho");
-  lista.innerHTML = "";
-
-  if (dados.length === 0) {
-    lista.innerHTML = "<h3>Seu carrinho está vazio 🥲</h3>";
+  if (!nome || !email || !senha) {
+    alert("Preencha todos os campos!");
     return;
   }
 
-  dados.forEach(p => {
-    lista.innerHTML += `
-      <div style="background:white; padding:15px; margin-bottom:10px; border-radius:10px;">
-        <img src="${p.imagem}" width="100">
-        <h4>${p.nome}</h4>
-        <p>R$ ${p.preco.toFixed(2)}</p>
-      </div>
-    `;
-  });
+  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  const existe = usuarios.find(u => u.email === email);
+
+  if (existe) {
+    alert("Esse e-mail já está cadastrado!");
+    return;
+  }
+
+  usuarios.push({ nome, email, senha });
+
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+  alert("Conta criada com sucesso!");
 }
 
+// ==========================
+// 🔐 LOGIN
+// ==========================
+function login() {
+  const email = document.getElementById("loginEmail").value;
+  const senha = document.getElementById("loginSenha").value;
+
+  let usuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
+
+  const usuario = usuarios.find(
+    u => u.email === email && u.senha === senha
+  );
+
+  if (!usuario) {
+    alert("E-mail ou senha incorretos!");
+    return;
+  }
+
+  localStorage.setItem("logado", JSON.stringify(usuario));
+
+  alert("Login realizado!");
+
+  window.location.href = "index.html";
+}
 
 // ==========================
-// 🟢 LISTA DE PRODUTOS
+// 🚪 LOGOUT
+// ==========================
+function logout() {
+  localStorage.removeItem("logado");
+  window.location.href = "login.html";
+}
+
+// ==========================
+// 🔒 PROTEÇÃO DE PÁGINA
+// ==========================
+function verificarLogin() {
+  const user = localStorage.getItem("logado");
+
+  if (!user) {
+    window.location.href = "login.html";
+  }
+}
+
+// ==========================
+// 🟢 PRODUTOS
 // ==========================
 const chuteiras = [
-  { id:1, nome:"Nike Mercurial", preco:499.90, imagem:"https://imgnike-a.akamaihd.net/768x768/02942716A2.jpg" },
-  { id:2, nome:"Adidas Predator", preco:459.90, imagem:"https://assets.adidas.com/images/w_600,f_auto,q_auto/33d99e6f605542258a2cc938706f6af0_9366/Chuteira_Predator_League_Fold-Over_Tongue_Firm-Multi-Ground_Branco_JI1111_01_00_standard_hover.jpg" },
-  { id:3, nome:"Puma Future", preco:389.90, imagem:"https://images.tcdn.com.br/img/img_prod/311840/chuteira_puma_future_z_1_2_fg_ag_campo_azul_94145_2_8fafc93858089d68152ea356cc9ba54f_20210806215830.jgp"},
-  { id:4, nome:"Nike Phantom", preco:529.90, imagem:"https://imgnike-a.akamaihd.net/1300x1300/02478115A9.jpg" },
-  { id:5, nome:"Adidas Copa", preco:429.90, imagem:"https://images.tcdn.com.br/img/img_prod/1130952/chuteira_adidas_copa_pure_ii_pro_firm_ground_cleats_ie4979_6559_1_7b82a597c2a39484a07a9ac2ffd61b08.jpg" }
+  { id: 1, nome: "Nike Mercurial", preco: 499.90, imagem: "https://images.tcdn.com.br/img/img_prod/628041/chuteira_campo_nike_mercurial_vapor_15_club_branco_azul_claro_23527_1_581767a7b3dc17fd646d4eb02c7f3e3f.png" },
+  { id: 2, nome: "Adidas Predator", preco: 459.90, imagem: "https://www.sportvision.gr/files/thumbs/files/images/slike_proizvoda/media/JI1/JI1092/images/thumbs_800/JI1092_800_800px.jpg.webp" },
+  { id: 3, nome: "Puma Future", preco: 389.90, imagem: "https://shoxstore.com.br/wp-content/uploads/2022/05/pmfz13fgaz_1.jpg" }
 ];
 
 // ==========================
-// 🛒 ADICIONAR AO CARRINHO
+// 👟 MOSTRAR PRODUTOS (CORREÇÃO IMPORTANTE)
 // ==========================
-function comprar(produto) {
+function carregarChuteiras() {
+  const lista = document.getElementById("produtos");
+  if (!lista) return;
+
+  lista.innerHTML = "";
+
+  chuteiras.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "card-produto";
+
+    card.innerHTML = `
+      <img src="${p.imagem}">
+      <h4>${p.nome}</h4>
+      <p>R$ ${p.preco.toFixed(2)}</p>
+      <button onclick="comprar(${p.id})">Comprar</button>
+    `;
+
+    lista.appendChild(card);
+  });
+}
+
+// ==========================
+// 🛒 CARRINHO
+// ==========================
+function comprar(id) {
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+  const produto = chuteiras.find(p => p.id == id);
 
   carrinho.push(produto);
 
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
-  // redireciona
+  atualizarCarrinho();
+
   window.location.href = "carrinho.html";
 }
 
 // ==========================
-// 👟 MOSTRAR CHUTEIRAS
+// 🔢 CONTADOR
 // ==========================
-function carregarChuteiras() {
-  const lista = document.getElementById("produtos");
+function atualizarCarrinho() {
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
-  if (!lista) return; // evita erro em outras páginas
+  const contador = document.getElementById("contador");
+
+  if (contador) {
+    contador.innerText = carrinho.length;
+  }
+}
+
+// ==========================
+// 🛒 MOSTRAR CARRINHO
+// ==========================
+function carregarCarrinho() {
+  const lista = document.getElementById("listaCarrinho");
+  if (!lista) return;
+
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
   lista.innerHTML = "";
 
-  chuteiras.forEach(p => {
-    lista.innerHTML += `
-      <div class="card-produto">
-        <img src="${p.imagem}">
-        <h4>${p.nome}</h4>
-        <p class="preco">R$ ${p.preco.toFixed(2)}</p>
+  if (carrinho.length === 0) {
+    lista.innerHTML = "<h3>Carrinho vazio 😢</h3>";
+    return;
+  }
 
-        <button onclick='comprar(${JSON.stringify(p)})'>
-          Comprar
+  carrinho.forEach((p, index) => {
+    lista.innerHTML += `
+      <div style="background:white; padding:15px; margin:10px; border-radius:10px;">
+        <img src="${p.imagem}" width="100">
+        <h4>${p.nome}</h4>
+        <p>R$ ${p.preco.toFixed(2)}</p>
+
+        <button onclick="removerItem(${index})"
+          style="background:red;color:white;border:none;padding:8px;border-radius:5px;">
+          Excluir
         </button>
       </div>
     `;
@@ -85,35 +168,25 @@ function carregarChuteiras() {
 }
 
 // ==========================
-// 🛒 MOSTRAR CARRINHO
+// 🗑️ REMOVER ITEM
 // ==========================
-function carregarCarrinho() {
-  const lista = document.getElementById("lista");
-
-  if (!lista) return;
-
+function removerItem(index) {
   let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
-  if (carrinho.length === 0) {
-    lista.innerHTML = "<h3>Carrinho vazio 😢</h3>";
-    return;
-  }
+  carrinho.splice(index, 1);
 
-  lista.innerHTML = "";
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
 
-  carrinho.forEach(p => {
-    lista.innerHTML += `
-      <div class="card">
-        <img src="${p.imagem}" width="100">
-        <h4>${p.nome}</h4>
-        <p>R$ ${p.preco.toFixed(2)}</p>
-      </div>
-    `;
-  });
+  carregarCarrinho();
+  atualizarCarrinho();
 }
 
 // ==========================
-// 🚀 INICIALIZAÇÃO AUTOMÁTICA
+// 🚀 INICIALIZAÇÃO (CORRIGIDA)
 // ==========================
-carregarChuteiras();
-carregarCarrinho();
+document.addEventListener("DOMContentLoaded", () => {
+
+  atualizarCarrinho();
+  carregarCarrinho();
+  carregarChuteiras(); // 🔥 ESSA LINHA É O QUE FALTAVA
+});

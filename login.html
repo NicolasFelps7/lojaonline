@@ -1,47 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Login - Prime Vision</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Login - Prime Vision</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="topo">
-    <img src="img/primevision.png" class="logo">
+  <img src="img/primevision.png" class="logo">
 </header>
 
 <main class="login-wrapper">
-    <div class="login-columns">
-        <section class="column">
-            <h3>Já sou cliente</h3>
-            <div class="input-group">
-                <input type="text" id="email" placeholder="E-mail, CPF ou CNPJ">
-                <input type="password" id="senha" placeholder="Senha">
-                <a href="#" class="forgot-password">Esqueci minha senha</a>
-            </div>
-            <button class="btn-primary" onclick="login()">Acessar conta</button>
-            <button class="btn-outline">Entrar sem senha</button>
-        </section>
 
-        <div class="divider"></div>
+  <div class="login-columns">
 
-        <section class="column">
-            <h3>Criar conta</h3>
-            <p class="subtitle">Informe seu e-mail para começar</p>
-            <input type="email" placeholder="Informe seu e-mail">
-            <button class="btn-primary">Prosseguir</button>
-        </section>
-    </div>
+    <!-- LOGIN -->
+    <section class="column">
+      <h3>Já sou cliente</h3>
 
-    <div class="social-login">
-        <p>Acesse sua conta através de suas redes sociais.</p>
-        <div class="social-buttons">
-            <button class="btn-facebook">Conectar com Facebook</button>
-            <button class="btn-google">Fazer Login com o Google</button>
-        </div>
-        <a href="#" class="help-link">Preciso de Ajuda</a>
-    </div>
+      <input type="text" id="loginEmail" placeholder="E-mail">
+      <input type="password" id="loginSenha" placeholder="Senha">
+
+      <button class="btn-primary" onclick="login()">Acessar conta</button>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CADASTRO -->
+    <section class="column">
+      <h3>Criar conta</h3>
+
+      <input type="text" id="cadNome" placeholder="Nome">
+      <input type="text" id="cadEmail" placeholder="E-mail">
+      <input type="password" id="cadSenha" placeholder="Senha">
+
+      <button class="btn-primary" onclick="criarConta()">Criar conta</button>
+    </section>
+
+  </div>
+
 </main>
 
 <script src="script.js"></script>

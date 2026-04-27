@@ -1,5 +1,8 @@
 // db.js
 
+// ==========================
+// 🟢 PRODUTOS
+// ==========================
 const produtos = [
   {
     id: 1,
@@ -24,10 +27,40 @@ const produtos = [
   }
 ];
 
-// carrinho (banco simples)
+// ==========================
+// 🛒 CARRINHO (SIMULADO EM MEMÓRIA)
+// ==========================
 let carrinho = [];
 
+// ==========================
+// ➕ ADICIONAR AO CARRINHO
+// ==========================
+function adicionarAoCarrinho(produto) {
+  carrinho.push(produto);
+}
+
+// ==========================
+// 🗑️ REMOVER DO CARRINHO
+// ==========================
+function removerDoCarrinho(index) {
+  if (index >= 0 && index < carrinho.length) {
+    carrinho.splice(index, 1);
+  }
+}
+
+// ==========================
+// 📦 LISTAR CARRINHO
+// ==========================
+function listarCarrinho() {
+  return carrinho;
+}
+
+// ==========================
+// 📦 EXPORTAÇÃO
+// ==========================
 module.exports = {
   produtos,
-  carrinho
+  adicionarAoCarrinho,
+  removerDoCarrinho,
+  listarCarrinho
 };
